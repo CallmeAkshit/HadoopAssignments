@@ -9,14 +9,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Driver {
-    public static final String userDirectory = System.getProperty("user.dir");
-    public static final String PATH = userDirectory+"/src/main/resources/";
+    private static final String userDirectory = System.getProperty("user.dir");
+    private static final String PATH = userDirectory+"/src/main/resources/";
 
-    public static final String EMPLOYEE_TABLE_NAME="emplo";
-    public static final String BUILDING_TABLE_NAME="buildi";
+    private static final String EMPLOYEE_TABLE_NAME="emplo";
+    private static final String BUILDING_TABLE_NAME="buildi";
 
     public static final String EMPLOYEE_HDFS_OUTPUT_PATH ="hdfs://localhost:8020/dataDirectory/employeeSerializeFile";
     public static final String BUILDING_HDFS_OUTPUT_PATH ="hdfs://localhost:8020/dataDirectory/buildingSerializeFile";
+    private static final String BUILDING_SERIALIZED_FILE = "buildingSerializedFile";
+    private static final String EMPLOYEE_SERIALIZED_FILE = "employeeSerializedFile";
 
 
 
@@ -24,8 +26,8 @@ public class Driver {
     // It Stores employee and building serializedfile to hdfs and creates building and employee table.
 
     public static void main(String[] args) throws IOException {
-        String inputPathToBuildingSerializedFile = PATH + "buildingSerializedFile";
-        String inputPathToEmployeeSerializedFile = PATH + "employeeSerializedFile";
+        String inputPathToBuildingSerializedFile = PATH + BUILDING_SERIALIZED_FILE;
+        String inputPathToEmployeeSerializedFile = PATH + EMPLOYEE_SERIALIZED_FILE;
 
         StoreToHdfs storeToHdfs=new StoreToHdfs();
         storeToHdfs.storeSerializedFile(inputPathToEmployeeSerializedFile,EMPLOYEE_HDFS_OUTPUT_PATH);

@@ -1,14 +1,18 @@
 package com.akshitbansal.assignment1;
 
-import java.net.URI;
-import java.util.HashMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
-import org.apache.hadoop.hbase.*;
-import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Table;
+import org.apache.hadoop.hbase.util.Bytes;
+
+import java.net.URI;
+import java.util.HashMap;
 
 public class HdfsToHBase {
 
@@ -83,7 +87,7 @@ public class HdfsToHBase {
         fileSystem.close();
     }
 
-    private static HashMap<Integer, String> getColumnMapping() {
+    public static HashMap<Integer, String> getColumnMapping() {
         HashMap<Integer, String> hm = new HashMap<>();
         hm.put(0, "Name");
         hm.put(1, "Age");

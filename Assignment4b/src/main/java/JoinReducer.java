@@ -15,6 +15,11 @@ import java.util.List;
 
 public class JoinReducer extends TableReducer<IntWritable, Result, ImmutableBytesWritable> {
 
+    private static final String EMPLOYEE = "employee";
+    private static final String EMPLOYEE_DETAILS = "employee_details";
+    private static final String BUILDING = "building";
+    private static final String BUILDING_DETAILS = "building_details";
+
     @Override
     public void reduce(IntWritable key, Iterable<Result> values, Context context) throws IOException, InterruptedException {
 
@@ -27,12 +32,12 @@ public class JoinReducer extends TableReducer<IntWritable, Result, ImmutableByte
 
         for (Result result : values) {
 
-            if (result.containsColumn(Bytes.toBytes("employee"), Bytes.toBytes("employee_details"))) {
+            if (result.containsColumn(Bytes.toBytes(EMPLOYEE), Bytes.toBytes(EMPLOYEE_DETAILS))) {
 
                 Employee employee = Employee.parseFrom(result.value());
                 list.add(employee);
             }
-            if (result.containsColumn(Bytes.toBytes("building"), Bytes.toBytes("building_details"))) {
+            if (result.containsColumn(Bytes.toBytes(BUILDING), Bytes.toBytes(BUILDING_DETAILS))) {
 
                 Building building = Building.parseFrom(result.value());
                 int cafeteria_code = building.getCafeteriaCode();

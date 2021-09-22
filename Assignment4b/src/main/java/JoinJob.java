@@ -13,7 +13,10 @@ import java.util.List;
 
 public class JoinJob extends Configured implements Tool {
 
-    public static final String TABLE_NAME_TO_INSERT_ENRICHED_DATA = "empl";
+    private static final String TABLE_NAME_TO_INSERT_ENRICHED_DATA = "empl";
+    private static final String SCAN_ATTRIBUTES_TABLE_NAME = "scan.attributes.table.name";
+    public static final String EMPLO = "emplo";
+    public static final String BUILDI = "buildi";
 
     public static void main(String[] args) throws Exception {
         JoinJob runJob = new JoinJob();
@@ -26,12 +29,12 @@ public class JoinJob extends Configured implements Tool {
         List<Scan> scans = new ArrayList<Scan>();
 
         Scan scan1 = new Scan();
-        scan1.setAttribute("scan.attributes.table.name", Bytes.toBytes("emplo"));
+        scan1.setAttribute(SCAN_ATTRIBUTES_TABLE_NAME, Bytes.toBytes(EMPLO));
         //System.out.println(scan1.getAttribute("scan.attributes.table.name"));
         scans.add(scan1);
 
         Scan scan2 = new Scan();
-        scan2.setAttribute("scan.attributes.table.name", Bytes.toBytes("buildi"));
+        scan2.setAttribute(SCAN_ATTRIBUTES_TABLE_NAME, Bytes.toBytes(BUILDI));
         //System.out.println(scan2.getAttribute("scan.attributes.table.name"));
         scans.add(scan2);
 

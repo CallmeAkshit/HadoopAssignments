@@ -10,16 +10,14 @@ import org.apache.hadoop.io.IntWritable;
 import java.util.Arrays;
 
 public class JoinMapper extends TableMapper<IntWritable, Result> {
-    private static byte[] EMPLOYEE_TABLE = Bytes.toBytes("emplo");
-    private static byte[] BUILDING_TABLE = Bytes.toBytes("buildi");
+    private static byte[] EMPLOYEE_TABLE = Bytes.toBytes(JoinJob.EMPLO);
+    private static byte[] BUILDING_TABLE = Bytes.toBytes(JoinJob.BUILDI);
 
     @Override
     public void map(ImmutableBytesWritable rowKey, Result columns, Context context) {
 
         TableSplit currentSplit = (TableSplit) context.getInputSplit();                  // get table name
         byte[] tableName = currentSplit.getTableName();
-
-        System.out.println(tableName.toString());
         try {
             if (Arrays.equals(tableName, EMPLOYEE_TABLE)) {
 
@@ -33,7 +31,6 @@ public class JoinMapper extends TableMapper<IntWritable, Result> {
                 context.write(new IntWritable(building_code), columns);
             }
         } catch (Exception e) {
-            // TODO : exception handling logic
             e.printStackTrace();
         }
     }

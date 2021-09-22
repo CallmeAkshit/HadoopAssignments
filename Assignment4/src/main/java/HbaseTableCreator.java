@@ -9,8 +9,10 @@ import java.io.IOException;
 public class HbaseTableCreator {
 
 
-    public static final String COLUMN_FAMILY_EMPLOYEE = "employee";
-    public static final String COLUMN_FAMILY_BUILDING = "building";
+    private static final String COLUMN_FAMILY_EMPLOYEE = "employee";
+    private static final String COLUMN_FAMILY_BUILDING = "building";
+    private static final String TABLE_ALREADY_EXISTS = "Table already exists";
+    private static final String TABLE_CREATED =  " table created";
 
 
     public void createTableBuilding(String tableNameToCreate) throws IOException {
@@ -21,7 +23,7 @@ public class HbaseTableCreator {
         Connection connection = ConnectionFactory.createConnection(config);
         Admin hAdmin = connection.getAdmin();
         if (hAdmin.tableExists(TableName.valueOf(tableNameToCreate))) {
-            System.out.println("Table already exists");
+            System.out.println(TABLE_ALREADY_EXISTS);
             return;
         }
         TableName tname = TableName.valueOf(tableNameToCreate);
@@ -34,7 +36,7 @@ public class HbaseTableCreator {
         tableDescBuilder.build();
 
         hAdmin.createTable(tableDescBuilder.build());
-        System.out.println(tableNameToCreate + " table created");
+        System.out.println(tableNameToCreate + TABLE_CREATED);
     }
 
     public void createTableEmployee(String tableNameToCreate) throws IOException {
@@ -45,7 +47,7 @@ public class HbaseTableCreator {
         Connection connection = ConnectionFactory.createConnection(config);
         Admin hAdmin = connection.getAdmin();
         if (hAdmin.tableExists(TableName.valueOf(tableNameToCreate))) {
-            System.out.println("Table already exists");
+            System.out.println(TABLE_ALREADY_EXISTS);
             return;
         }
 
@@ -58,6 +60,6 @@ public class HbaseTableCreator {
         tableDescBuilder.build();
 
         hAdmin.createTable(tableDescBuilder.build());
-        System.out.println(tableNameToCreate + " table created");
+        System.out.println(tableNameToCreate + TABLE_CREATED);
     }
 }

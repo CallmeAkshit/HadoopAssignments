@@ -26,6 +26,11 @@ public class MapReduceDriver {
     public static final String BUILDING_HFILE_OUTPUT_PATH = "hdfs://localhost:8020/dataDirectory/building_hfile/";
     public static final String EMPLOYEE_HDFS_INPUT_PATH = Driver.EMPLOYEE_HDFS_OUTPUT_PATH;
     public static final String BUILDING_HDFS_INPUT_PATH = Driver.BUILDING_HDFS_OUTPUT_PATH;
+    public static final String DEFAULT_FS = "fs.defaultFS";
+    private static final String HDFS_INPUT_URL = "hdfs://localhost:8020/";
+    private static final String HDFS_IMPL = "fs.hdfs.impl";
+    private static final String FILE_IMPL = "fs.file.impl";
+    private static final String BULK_LOADING_MESSAGE = "Bulk Loading HBase Table::";
 
 
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
@@ -40,9 +45,9 @@ public class MapReduceDriver {
         Configuration configuration = new Configuration();
 
 
-        configuration.set("fs.defaultFS", "hdfs://localhost:8020/");
-        configuration.set("fs.hdfs.impl", org.apache.hadoop.hdfs.DistributedFileSystem.class.getName());
-        configuration.set("fs.file.impl", org.apache.hadoop.fs.LocalFileSystem.class.getName());
+        configuration.set(DEFAULT_FS, HDFS_INPUT_URL);
+        configuration.set(HDFS_IMPL, org.apache.hadoop.hdfs.DistributedFileSystem.class.getName());
+        configuration.set(FILE_IMPL, org.apache.hadoop.fs.LocalFileSystem.class.getName());
 
         Path output = new Path(hfileOutputPath);
         FileSystem hdfs = FileSystem.get(URI.create(hfileOutputPath), configuration);
@@ -53,7 +58,7 @@ public class MapReduceDriver {
         Job job = Job.getInstance(configuration);
 
         job.setJarByClass(MapReduceDriver.class);
-        job.setJobName("Bulk Loading HBase Table::" + tableToInsert);
+        job.setJobName(BULK_LOADING_MESSAGE + tableToInsert);
         job.setInputFormatClass(WholeFileInputFormat.class);
         //job.setInputFormatClass(TextInputFormat.class);
 

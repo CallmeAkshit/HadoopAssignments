@@ -20,6 +20,9 @@ public class HbaseBulkLoadDriver extends Configured implements Tool {
 
     public static final String TABLE_TO_READ_FROM="People_Info";
     public static final String TABLE_NAME_TO_INSERT="peopleBulkUpload";
+    private static final String TABLE_NAME_TO_RETRIEVE = "People_Info";
+    private static final String HDFS_INPUT_LOCATION = "hdfs://localhost:8020/dataDirectory/temp100/part-r-00000";
+    private static final String HDFS_OUTPUT_LOCATION = "hdfs://localhost:8020/dataDirectory/temp100";
 
     public static void main(String[] args) {
         try {
@@ -61,14 +64,14 @@ public class HbaseBulkLoadDriver extends Configured implements Tool {
         scan.setCacheBlocks(false);
 
         job.setOutputFormatClass(TextOutputFormat.class);
-        TextOutputFormat.setOutputPath(job,new Path("hdfs://localhost:8020/dataDirectory/temp100"));
+        TextOutputFormat.setOutputPath(job,new Path(HDFS_OUTPUT_LOCATION));
 
         job.setReducerClass(HdfsReducer.class);
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
 
-        TableMapReduceUtil.initTableMapperJob(TableName.valueOf("People_Info"),
+        TableMapReduceUtil.initTableMapperJob(TableName.valueOf(TABLE_NAME_TO_RETRIEVE),
                 scan,
                 HdfsMapper.class,
                 ImmutableBytesWritable.class,
@@ -81,7 +84,7 @@ public class HbaseBulkLoadDriver extends Configured implements Tool {
 
         if(job.isSuccessful()){
             HFileCreator hFileCreator=new HFileCreator();
-            hFileCreator.createHFile("hdfs://localhost:8020/dataDirectory/temp100/part-r-00000");
+            hFileCreator.createHFile(HDFS_INPUT_LOCATION);
         }
 
        return b?0:1;

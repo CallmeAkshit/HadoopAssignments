@@ -31,7 +31,7 @@ public class HFileCreator {
 
 
         Job job = Job.getInstance(configuration);
-        Path output = new Path("hdfs://localhost:8020/dataDirectory/temp100");
+        Path output = new Path("hdfs://localhost:8020/dataDirectory/temp101");
         FileSystem hdfs = FileSystem.get(URI.create("hdfs://localhost:8020/dataDirectory/temp101"),configuration);
 
         if (hdfs.exists(output)) {                                      // delete existing directory
